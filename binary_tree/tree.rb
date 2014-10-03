@@ -6,18 +6,22 @@ class Tree
     @root = nil
   end
 
-  def insert value, branch, side
-    @root = branch if @root.nil?
-
+  def insert value, branch = nil, side = nil
     new_branch = Branch.new value
-    new_branch.parent = branch
 
-    case side
-    when 'right'
-      branch.right = new_branch
-    when 'left'
-      branch.left = new_branch
+    if @root.nil?
+      @root = new_branch
+    else
+      new_branch.parent = branch
+
+      case side
+      when 'right'
+        branch.right = new_branch
+      when 'left'
+        branch.left = new_branch
+      end
     end
+
     new_branch
   end
 
@@ -27,6 +31,15 @@ class Tree
       branch.right = nil
     when 'left'
       branch.left = nil
+    end
+  end
+
+  def get branch, side
+    case side
+    when 'right'
+      branch.right.value rescue 'nenhum valor a direita'
+    when 'left'
+      branch.left.value rescue 'nenhum valor a esquerda'
     end
   end
 
